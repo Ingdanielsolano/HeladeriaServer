@@ -9,7 +9,7 @@ function Producto() {
             if (cn == null) {
                 console.log('no hubo conexion');
             }
-            cn.query('call ConsultarProductos()', function (error, respuesta) {
+            cn.query('call ConsultarProductos()', function (error, respuesta) {                
                 cn.release();
                 if (error) {
                     resultado.send({
@@ -21,7 +21,7 @@ function Producto() {
             })
         });
     };
-
+ 
     //Consultar unico producto
     this.DetalleProducto = function (data, resultado) {
         connection.obtener(function (er, cn) {

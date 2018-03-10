@@ -4,9 +4,10 @@ var jwt=require('jsonwebtoken');
 function Admin() {
     this.login=function (data,response) {
         connection.obtener(function (er,cn) {            
+            console.log("Its here");
             cn.query(`select id from Usuario where username='${data.username}' and pass=Md5('${data.pass}');`,function (error,result) {                
                 cn.release();
-                if (error) {
+                if (error) {                    
                     response.send({estado:'Error'});                
                 }else{
                     if(result.length==0){

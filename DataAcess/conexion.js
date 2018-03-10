@@ -4,9 +4,9 @@ function conexion(){
     this.pool=null;
     this.inicia= function(){
         this.pool=mysql.createPool({
-         host:'104.131.33.226',
-         user:'munar',
-         password:'munar117asd',
+         host:'localhost',
+         user:'root',
+         password:'root',
          database: 'heladeria',
          
         })

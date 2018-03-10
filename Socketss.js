@@ -10,13 +10,14 @@ function startSockets() {
         })
         socket.on('ChangeState', (data) => {
             connection.obtener((er, cn) => {
-                console.log("changing " + data.codigo_pedido+" tiempo "+data.tiempo);
+                //console.log("changing " + data.codigo_pedido+" tiempo "+data.tiempo+" persona "+ data.id_cliente);
                 cn.query(`call CambiarEstadoPedido(${data.codigo_pedido},'${data.tiempo}');`, function (error, resultado) {
                     cn.release();
                     if (!error) {
                         io.sockets.emit('StateChaged')
+                        TakeDataClient(data.cedula)
                     }else{
-                        console.log(error);
+                        //console.log(error);
                     }
                 })
             })
@@ -41,11 +42,11 @@ function startSockets() {
         socket.on('DetailOrderData', function (data) {
             connection.inicia();
             connection.obtener(function (er, cn) {
-                console.log(data);
+                //console.log(data);
                 cn.query(`Select * from detalle_pedido dp where dp.codigo_pedido=${data}`, function (error, resultado) {
                     cn.release();
                     if (!error) {
-                        console.log(resultado);
+                        //console.log(resultado);
                         io.sockets.emit('DeailOrderClient', resultado);
                     }
                 })
@@ -55,7 +56,7 @@ function startSockets() {
             connection.inicia();
             connection.obtener(function (er, cn) {
                 cn.query(`Select p.codigo_pedido, p.Valor_total as total, Acept as estado,nombre, 
-                dir.barrio,p.estado as estadogrande,p.tiempo from pedido p inner join direccion dir on dir.codigo_direccion=p.direccion 
+                dir.barrio,p.estado as estadogrande,p.tiempo,c.cedula from pedido p inner join direccion dir on dir.codigo_direccion=p.direccion 
                 join cliente c on c.id_cliente=p.id_cliente;`, function (error, resultado) {
                     cn.release();
                     if (!error) {
@@ -68,11 +69,13 @@ function startSockets() {
         function TakeDataClient(id) {
             connection.inicia();
             connection.obtener(function (er, cn) {
+                console.log(id);
                 cn.query(`Select p.codigo_pedido, p.Valor_total as total, Acept as estado,nombre, 
                 dir.barrio,p.estado as estadogrande from pedido p inner join direccion dir on dir.codigo_direccion=p.direccion 
                 join cliente c on c.id_cliente=p.id_cliente where c.cedula=${id};`, function (error, resultado) {
                     cn.release();
-                    if (!error) {
+                    if (!error) {                        
+                        console.log(resultado);
                         io.sockets.emit('PersonalOrders', resultado);
                     }
                 })
