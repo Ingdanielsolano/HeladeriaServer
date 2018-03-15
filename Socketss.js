@@ -69,13 +69,13 @@ function startSockets() {
         function TakeDataClient(id) {
             connection.inicia();
             connection.obtener(function (er, cn) {
-                console.log(id);
+                //console.log(id);
                 cn.query(`Select p.codigo_pedido, p.Valor_total as total, Acept as estado,nombre, 
                 dir.barrio,p.estado as estadogrande from pedido p inner join direccion dir on dir.codigo_direccion=p.direccion 
                 join cliente c on c.id_cliente=p.id_cliente where c.cedula=${id};`, function (error, resultado) {
                     cn.release();
                     if (!error) {                        
-                        console.log(resultado);
+                        //console.log(resultado);
                         io.sockets.emit('PersonalOrders', resultado);
                     }
                 })

@@ -25,6 +25,7 @@ function http() {
             pedido.IngresarDetallePedido(solicitud.body, respuesta);
         });
         app.post('/login/', function (solicitud, respuesta) {
+            console.log('Hey');
             admin.login(solicitud.body, respuesta);
         });
         app.post('/detallePedido',function (solicitud, respuesta) {

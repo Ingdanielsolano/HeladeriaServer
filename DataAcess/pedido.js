@@ -5,11 +5,11 @@ function Pedido() {
 
     this.InsertaPedido = function (datos, respuesta) {        
         connection.obtener(function (er, cn) {
-            console.log(datos);
+            //console.log(datos);
             cn.query('Call IngresarPedido(?,?,?,?,?,?,?,?,?,?); ', [datos.cedula, datos.direccion, datos.barrio, datos.punto,datos.mil,datos.dosmil,datos.cincomil,datos.diezmil,datos.veintemil,datos.cincuentamil], function (error, resultado) {
                 cn.release();
                 if (error) {
-                    console.log(error);
+                    //console.log(error);
                     respuesta.send({
                         estado: 'error'
                     });
@@ -28,7 +28,7 @@ function Pedido() {
                 if (error) {
                     return 'error';
                 } else {
-                    console.log(resultado);
+                    //console.log(resultado);
                     return resultado;
                 }
             })
@@ -39,7 +39,7 @@ function Pedido() {
             cn.query('Call IngresarDetallePedido(?,?,?,?,?); ', [datos.codigo_producto, datos.cantidad, datos.precio, datos.tamano, datos.cedula], function (error, resultado) {
                 cn.release();
                 if (error) {
-                    console.log(error);
+                    //console.log(error);
                     respuesta.send({
                         estado: error
                     });
@@ -56,7 +56,7 @@ function Pedido() {
             cn.query('Select dp.codigo_pedido,dp.tamano,dp.cantidad,dp.valor_total as total,nombre_producto as nombre from detalle_pedido dp inner join producto p on p.codigo_producto=dp.codigo_producto where dp.codigo_pedido=' + datos.id + ';', function (error, resultado) {
                 cn.release();
                 if (error) {
-                    console.log(error);
+                    //console.log(error);
                     respuesta.send({
                         estado: error
                     });
